@@ -144,6 +144,10 @@ In C<weaver.ini>:
 This section plugin will produce a hunk of Pod that refers the user to the
 distribution's homepage and development versions.
 
+You need to use L<Dist::Zilla::Plugin::Bugtracker> and
+L<Dist::Zilla::Plugin::Homepage> in your C<dist.ini> file, because
+this plugin relies on information those other plugins generate.
+
 =function weave_section
 
 adds the C<AVAILABILITY> section.
