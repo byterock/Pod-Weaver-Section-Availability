@@ -1,0 +1,5 @@
+Revision history for Perl extension {{$dist->name}}
+
+{{$NEXT}}
+    - separated from Pod-Weaver-PluginBundle-MARCEL with changes from nigelm
+      and mjg
