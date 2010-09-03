@@ -1,5 +1,7 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.102460  2010-09-03 12:03:54 Europe/Vienna
     - separated from Pod-Weaver-PluginBundle-MARCEL with changes from nigelm
       and mjg
