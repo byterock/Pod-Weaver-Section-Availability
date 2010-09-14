@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.102570  2010-09-14 16:49:38 Europe/Vienna
     - repo_web is optional; we can only determine the URL for github repos. If
       undef, we don't include the relevant POD.
 
