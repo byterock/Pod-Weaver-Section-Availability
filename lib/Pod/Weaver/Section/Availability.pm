@@ -152,6 +152,6 @@ You need to use L<Dist::Zilla::Plugin::Bugtracker> and
 L<Dist::Zilla::Plugin::Homepage> in your C<dist.ini> file, because
 this plugin relies on information those other plugins generate.
 
-=function weave_section
+=method weave_section
 
-adds the C<AVAILABILITY> section.
+Adds the C<AVAILABILITY> section.
