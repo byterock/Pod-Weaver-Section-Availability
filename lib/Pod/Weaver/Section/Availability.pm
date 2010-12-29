@@ -78,9 +78,10 @@ sub _build_repo_data {
 
         # strip the access method off - we can then add it as needed
         my $nomethod = $repourl;
-        $nomethod =~ s!^(http|git|git\@github\.com):/*!!i;
-        $repourl = 'git://' . $nomethod;
-        $repoweb = 'http://' . $nomethod;
+        $nomethod =~ s{^(http|git|git\@github\.com):/*}{}i;
+        $nomethod =~ s{\.git$}{}i;
+        $repourl = "git://$nomethod.git";
+        $repoweb = "http://$nomethod";
     }
     return ($repourl, $repoweb);
 }
