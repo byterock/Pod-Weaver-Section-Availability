@@ -3,20 +3,64 @@ use strict;
 use warnings;
 
 package Pod::Weaver::Section::Availability;
-
 # ABSTRACT: Add an AVAILABILITY pod section
+# VERSION
 use Moose;
 with 'Pod::Weaver::Role::Section';
+
 use namespace::autoclean;
 use Moose::Autobox;
 
+=head1 SYNOPSIS
+
+In C<weaver.ini>:
+
+    [Availability]
+
+=for test_synopsis
+1;
+__END__
+
+=head1 OVERVIEW
+
+This section plugin will produce a hunk of Pod that refers the user to the
+distribution's homepage and development versions.
+
+You need to use L<Dist::Zilla::Plugin::Bugtracker> and
+L<Dist::Zilla::Plugin::Homepage> in your C<dist.ini> file, because
+this plugin relies on information those other plugins generate.
+
+=head1 METHODS
+
+=cut
+
 # add a set of attributes to hold the repo information
-has zilla =>
-  (is => 'rw', isa => 'Dist::Zilla', handles => [ 'name', 'distmeta' ]);
-has [qw(homepage_url cpan_url repo_type repo_url)] =>
-  (is => 'rw', isa => 'Str', lazy_build => 1);
-has repo_web => (is => 'rw', lazy_build => 1);
-has is_github => (is => 'rw', isa => 'Bool', lazy_build => 1);
+has zilla => (
+    is => 'rw',
+    isa => 'Dist::Zilla',
+    handles => [ 'name', 'distmeta' ]
+);
+
+has [qw(homepage_url cpan_url repo_type repo_url)] => (
+    is => 'rw',
+    isa => 'Str',
+    lazy_build => 1
+);
+has repo_web => (
+    is => 'rw',
+    lazy_build => 1
+);
+has is_github => (
+    is => 'rw',
+    isa => 'Bool',
+    lazy_build => 1
+);
+
+=head2 weave_section
+
+Adds the C<AVAILABILITY> section.
+
+=cut
 
 sub weave_section {
     my ($self, $document, $input) = @_;
@@ -65,14 +109,14 @@ sub _build_is_github {
 
     # we do this by looking at the URL for githubbyness
     my $repourl = $self->distmeta->{resources}{repository}{url}
-      or die "No repository URL set in distmeta";
+      or die 'No repository URL set in distmeta';
     $repourl =~ m|/github.com/|;
 }
 
 sub _build_repo_data {
     my $self    = shift;
     my $repourl = $self->distmeta->{resources}{repository}{url}
-      or die "No repository URL set in distmeta";
+      or die 'No repository URL set in distmeta';
     my $repoweb;
     if ($self->is_github) {
 
@@ -114,45 +158,23 @@ sub _cpan_pod {
 sub _development_pod {
     my $self = shift;
     my $text;
+
     if ($self->is_github) {
-        $text = sprintf "The development version lives at L<%s>\n",
-          $self->repo_web;
-        $text .= sprintf "and may be cloned from L<%s>.\n", $self->repo_url;
-        $text .=
-"Instead of sending patches, please fork this project using the standard\n";
-        $text .= "git and github infrastructure.\n";
-    } else {
-        $text =
-          sprintf "The development version lives in a %s repository at L<%s>\n",
-          $self->repo_type, $self->repo_web;
+        $text = sprintf <<'END_TEXT', $self->repo_web, $self->repo_url;
+The development version lives at L<%s>
+and may be cloned from L<%s>.
+Instead of sending patches, please fork this project using the standard
+git and github infrastructure.
+END_TEXT
     }
+    elsif ($self->repo_type and $self->repo_web) {
+        $text =
+            sprintf "The development version lives in a %s repository at L<%s>\n",
+            $self->repo_type, $self->repo_web;
+    }
+
     Pod::Elemental::Element::Pod5::Ordinary->new({ content => $text });
+    return;
 }
+
 1;
-
-=begin :prelude
-
-=for test_synopsis
-1;
-__END__
-
-=end :prelude
-
-=head1 SYNOPSIS
-
-In C<weaver.ini>:
-
-    [Availability]
-
-=head1 OVERVIEW
-
-This section plugin will produce a hunk of Pod that refers the user to the
-distribution's homepage and development versions.
-
-You need to use L<Dist::Zilla::Plugin::Bugtracker> and
-L<Dist::Zilla::Plugin::Homepage> in your C<dist.ini> file, because
-this plugin relies on information those other plugins generate.
-
-=method weave_section
-
-Adds the C<AVAILABILITY> section.
