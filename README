@@ -2,7 +2,7 @@ NAME
     Pod::Weaver::Section::Availability - Add an AVAILABILITY pod section
 
 VERSION
-    version 1.102571
+    version 1.20
 
 SYNOPSIS
     In "weaver.ini":
@@ -23,7 +23,7 @@ METHODS
 
 AVAILABILITY
     The project homepage is
-    <http://p3rl.org/Pod::Weaver::Section::Availability>.
+    <http://metacpan.org/release/Pod-Weaver-Section-Availability/>.
 
     The latest version of this module is available from the Comprehensive
     Perl Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a

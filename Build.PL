@@ -24,7 +24,7 @@ my %module_build_args = (
     "Mike Doherty <doherty\@cpan.org>"
   ],
   "dist_name" => "Pod-Weaver-Section-Availability",
-  "dist_version" => "1.102571",
+  "dist_version" => "1.20",
   "license" => "perl",
   "module_name" => "Pod::Weaver::Section::Availability",
   "recommends" => {},
