@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.102571  2012-01-17
     - Use metacpan.org for the default links [RT #74090]
     - Don't die when distmeta has no repo URL [RT #65705]
 
