@@ -38,10 +38,10 @@ this plugin relies on information those other plugins generate.
 has zilla => (
     is => 'rw',
     isa => 'Dist::Zilla',
-    handles => [ 'name', 'distmeta' ]
+    handles => ['distmeta'],
 );
 
-has [qw(homepage_url cpan_url repo_type repo_url)] => (
+has [qw(homepage_url cpan_url repo_type repo_url name)] => (
     is => 'rw',
     isa => 'Str',
     lazy_build => 1
@@ -81,14 +81,20 @@ sub weave_section {
     );
 }
 
+sub _build_name {
+    my $name = shift->zilla->name;
+    $name =~ s/-/::/g;
+    return $name;
+}
+
 sub _build_homepage_url {
     my $self = shift;
     $self->distmeta->{resources}{homepage}
-      || sprintf 'http://search.cpan.org/dist/%s/', $self->name;
+      || sprintf 'https://metacpan.org/module/%s/', $self->name;
 }
 
 sub _build_cpan_url {
-    sprintf 'http://search.cpan.org/dist/%s/', shift->name;
+    sprintf 'https://metacpan.org/module/%s/', shift->name;
 }
 
 # if we don't know we default to git...
@@ -137,11 +143,9 @@ sub _homepage_pod {
     return if $self->cpan_url eq $self->homepage_url;
 
     # otherwise return some boilerplate
-    Pod::Elemental::Element::Pod5::Ordinary->new(
-        {   content => sprintf 'The project homepage is L<%s>.',
-            $self->homepage_url
-        }
-    );
+    Pod::Elemental::Element::Pod5::Ordinary->new({
+        content => sprintf 'The project homepage is L<%s>.', $self->homepage_url
+    });
 }
 
 sub _cpan_pod {
