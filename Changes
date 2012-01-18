@@ -1,7 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
-    - Use metacpan.org for the default links [RT 74090]
+    - Use metacpan.org for the default links [RT #74090]
+    - Don't die when distmeta has no repo URL [RT #65705]
 
 1.102570  2010-09-14 16:49:38 Europe/Vienna
     - repo_web is optional; we can only determine the URL for github repos. If

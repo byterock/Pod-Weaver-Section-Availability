@@ -115,14 +115,13 @@ sub _build_is_github {
 
     # we do this by looking at the URL for githubbyness
     my $repourl = $self->distmeta->{resources}{repository}{url}
-      or die 'No repository URL set in distmeta';
+      or return;
     $repourl =~ m|/github.com/|;
 }
 
 sub _build_repo_data {
     my $self    = shift;
-    my $repourl = $self->distmeta->{resources}{repository}{url}
-      or die 'No repository URL set in distmeta';
+    my $repourl = $self->distmeta->{resources}{repository}{url};
     my $repoweb;
     if ($self->is_github) {
 
@@ -177,7 +176,7 @@ END_TEXT
             $self->repo_type, $self->repo_web;
     }
 
-    Pod::Elemental::Element::Pod5::Ordinary->new({ content => $text });
+    Pod::Elemental::Element::Pod5::Ordinary->new({ content => $text }) if $text;
     return;
 }
 
