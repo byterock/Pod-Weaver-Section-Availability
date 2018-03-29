@@ -176,7 +176,8 @@ END_TEXT
             $self->repo_type, $self->repo_web;
     }
 
-    Pod::Elemental::Element::Pod5::Ordinary->new({ content => $text }) if $text;
+    return Pod::Elemental::Element::Pod5::Ordinary->new({ content => $text }) 
+      if $text;
     return;
 }
 
